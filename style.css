@@ -1,82 +1,49 @@
+* { box-sizing: border-box; }
 
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: helvetica, arial, sans-serif;
-    margin: 25px;
-  }
-  
-  main {
-    display:block;
-    height:175px;
-  }
-  
-  header {
-    border-bottom: 1px solid black;
-  }
-  
-  h1 {
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .bold {
-    font-weight: bold;
-  }
-  
-  p {
-    max-width: 600px;
-  }
-  
-  
-  li {
-    margin-bottom: 5px;
-  }
-  
-  footer {
-    padding-top: 25px;
-    border-top: 1px solid black;
-  }
-  
-  footer a {
-    float:left;
-    margin:5px;
-  }
-  
-  .pet-image {
-    height:250px;
-  }
-  
-  .dashboard div {
-    display:block;
-  }
-  
-  .pet-image-container {
-    float:left;
-    padding:10px;
-  }
-  
-  .dashboard {
-    float:left;
-    padding:20px;
-  }
-  
-  .button-container {
-    margin-top:20px;
-  }
-  
-  .button-container button {
-    width: 100px;
-      margin-right: 10px;
-      text-align: center;
-      display: inline-block;
-      float: left;
-    font-size:15px;
-    background-color: #1e2835;
-    border-color: #404853;
-    cursor:pointer;
-    background-image: linear-gradient(to bottom,rgba(246,246,246,.1)0%,rgba(30,40,53,0)66%);
-    color: #fafafa;
-  }
+body { font-family: helvetica, arial, sans-serif; margin: 25px; }
+main { display:block; height: 210px; } /* tiny bump to fit comment box */
+header { border-bottom: 1px solid black; }
+h1 { font-weight: bold; color: #000; }
+.bold { font-weight: bold; }
+p { max-width: 600px; }
+li { margin-bottom: 5px; }
+
+.pet-image { height:250px; transition: filter .25s ease; }
+.pet-image.sad { filter: grayscale(100%) brightness(0.8); }
+
+.dashboard div { display:block; }
+.pet-image-container { float:left; padding:10px; }
+.dashboard { float:left; padding:20px; }
+
+.button-container { margin-top:20px; }
+.button-container button {
+  width: 100px; margin-right: 10px; text-align: center; display: inline-block; float: left;
+  font-size:15px; background-color: #1e2835; border-color: #404853; cursor:pointer;
+  background-image: linear-gradient(to bottom,rgba(246,246,246,.1) 0%, rgba(30,40,53,0) 66%);
+  color: #fafafa;
+}
+
+/* New: inline comment/notification from the pet */
+.pet-comment {
+  clear: both;
+  margin-top: 16px;
+  padding: 10px 12px;
+  border: 1px solid #d0d6df;
+  background: #f4f7fb;
+  border-radius: 8px;
+  min-height: 24px;
+  display: none;        /* shown via jQuery fades */
+  max-width: 460px;
+}
+
+@keyframes pet-wiggle {
+  0%   { transform: translateX(0); }
+  33%  { transform: translateX(10px); }
+  66%  { transform: translateX(-10px); }
+  100% { transform: translateX(0); }
+}
+
+.pet-image.shake {
+  animation: pet-wiggle 0.3s ease;
+  will-change: transform;
+}
