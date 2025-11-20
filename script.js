@@ -12,16 +12,16 @@ $(function () {
 // Core pet data (numbers, not strings)
 var pet_info = {
   name: "Rover",
-  weight: 10,      // pounds
-  happiness: 5,    // tail wags per min
-  energy: 6        // "zzz" units (0–10)
+  weight: 10,
+  happiness: 5,
+  energy: 6
 };
 
 // Action handlers
 function clickedTreatButton() {
   pet_info.happiness += 1;
   pet_info.weight += 1;
-  pet_info.energy += 1; // snacks perk you up a bit
+  pet_info.energy += 1;
   afterAction("Yum! Thanks for the treat!");
 }
 
@@ -43,9 +43,8 @@ function clickedExerciseButton() {
 
 // NEW ACTION + BEHAVIOR
 function clickedSleepButton() {
-  pet_info.energy += 3;        // main effect
-  pet_info.happiness += 1;     // well-rested = happier
-  // weight unchanged
+  pet_info.energy += 3;
+  pet_info.happiness += 1;
   afterAction("Zzz... I feel rested!");
 }
 
@@ -74,7 +73,6 @@ function checkWeightAndHappinessBeforeUpdating() {
   }
 }
 
-// Updates your HTML with the current values in your pet_info object
 function updatePetInfoInHtml() {
   $(".name").text(pet_info["name"]);
   $(".weight").text(pet_info["weight"]);
@@ -89,24 +87,19 @@ function checkAndUpdatePetInfoInHtml() {
 
 // Visual notification from the pet WITHOUT alert/console
 function showComment(msg) {
-  // jQuery method #1: fadeIn/fadeOut for a smooth transient bubble.
-  // We also use .stop(true,true) to cancel any queued animations so messages don't stack.
   $(".pet-comment")
     .stop(true, true)
     .hide()
     .text(msg)
-    .fadeIn(200)     // <— not used in the starter; smooth entrance
+    .fadeIn(200)
     .delay(1200)
-    .fadeOut(400);   // <— smooth exit
+    .fadeOut(400);
 }
 
 // Fun little wiggle animation for “play”/“exercise”
 function wigglePet() {
   const $img = $(".pet-image");
-  // retrigger the CSS animation even if it’s already applied
   $img.removeClass("shake");
-  // force a reflow so the class re-add restarts the animation
-  // (no layout drift—transform doesn't affect flow)
   void $img[0].offsetWidth;
   $img.addClass("shake");
 }
