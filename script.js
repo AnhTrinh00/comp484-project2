@@ -77,7 +77,7 @@ function clickedSleepButton() {
 function afterAction(commentText) {
   checkAndUpdatePetInfoInHtml();
   showComment(commentText);
-  blinkPet(); // subtle feedback using .queue() (unique method #2)
+  blinkPet();
 }
 
 /* ---------------------------
@@ -147,7 +147,7 @@ function blinkPet() {
     });
 }
 
-// Unique method #3: insertAfter()
+// Unique method #2: insertAfter()
 // Adds a fun message element right after the pet image temporarily
 function sparklePet() {
   const $img = $(".pet-image");
