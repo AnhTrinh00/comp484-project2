@@ -88,3 +88,9 @@ li {
   animation: pet-wiggle 0.3s ease;
   will-change: transform;
 }
+
+.pet-frame {
+  border: 4px dashed #a2c4ec;
+  padding: 4px;
+  display: inline-block;
+}

@@ -29,17 +29,26 @@ function clickedPlayButton() {
   pet_info.happiness += 2;
   pet_info.weight -= 1;
   pet_info.energy -= 2;
-  wigglePet();
   afterAction("That was fun! Wanna play again?");
+  wigglePet();
+
+  // Unique jQuery method: .wrap()
+  // Adds a fun frame when playing
+  $(".pet-image").wrap("<div class='pet-frame'></div>");
 }
 
 function clickedExerciseButton() {
   pet_info.happiness -= 1;
   pet_info.weight -= 2;
   pet_info.energy -= 2;
-  wigglePet();
   afterAction("Phew... great workout!");
+  wigglePet();
+
+  // Unique jQuery method: .unwrap()
+  // Removes the frame when exercising
+  $(".pet-image").unwrap();
 }
+
 
 // NEW ACTION + BEHAVIOR
 function clickedSleepButton() {
@@ -103,3 +112,27 @@ function wigglePet() {
   void $img[0].offsetWidth;
   $img.addClass("shake");
 }
+
+function clickedPlayButton() {
+  pet_info.happiness += 2;
+  pet_info.weight -= 1;
+  pet_info.energy -= 2;
+  afterAction("That was fun! Wanna play again?");
+  wigglePet();
+
+  // unique method: .wrap()
+  $(".pet-image").wrap("<div class='pet-frame'></div>");
+}
+
+function blinkPet() {
+  $(".pet-image")
+    .queue(function (next) {
+      $(this).css("opacity", 0.3);
+      next();
+    })
+    .queue(function (next) {
+      $(this).css("opacity", 1);
+      next();
+    });
+}
+
