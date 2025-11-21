@@ -94,3 +94,7 @@ li {
   padding: 4px;
   display: inline-block;
 }
+
+.pet-image.sad {
+  filter: grayscale(100%) brightness(0.8);
+}

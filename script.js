@@ -9,15 +9,19 @@ $(function () {
   $(".sleep-button").click(clickedSleepButton);
 });
 
-// Core pet data (numbers, not strings)
+/* ---------------------------
+   Core pet data
+---------------------------- */
 var pet_info = {
   name: "Rover",
-  weight: 10,
-  happiness: 5,
-  energy: 6
+  weight: 10,      // pounds
+  happiness: 5,    // tail wags per min
+  energy: 6        // zzz units (0–10)
 };
 
-// Action handlers
+/* ---------------------------
+   Actions
+---------------------------- */
 function clickedTreatButton() {
   pet_info.happiness += 1;
   pet_info.weight += 1;
@@ -26,44 +30,58 @@ function clickedTreatButton() {
 }
 
 function clickedPlayButton() {
+  // 🚫 Prevent playing when energy is 0
+  if (pet_info.energy <= 0) {
+    afterAction("I'm too tired to play right now...");
+    return;
+  }
+
   pet_info.happiness += 2;
   pet_info.weight -= 1;
   pet_info.energy -= 2;
-  afterAction("That was fun! Wanna play again?");
-  wigglePet();
 
-  // Unique jQuery method: .wrap()
-  // Adds a fun frame when playing
-  $(".pet-image").wrap("<div class='pet-frame'></div>");
+  // Wrap the image when playing (unique method #1)
+  const $img = $(".pet-image");
+  if (!$img.parent().hasClass("pet-frame")) {
+    $img.wrap("<div class='pet-frame'></div>");
+  }
+
+  wigglePet();
+  afterAction("That was fun! Wanna play again?");
 }
 
 function clickedExerciseButton() {
   pet_info.happiness -= 1;
   pet_info.weight -= 2;
   pet_info.energy -= 2;
-  afterAction("Phew... great workout!");
-  wigglePet();
 
-  // Unique jQuery method: .unwrap()
-  // Removes the frame when exercising
-  $(".pet-image").unwrap();
+  // Remove the wrap when exercising
+  if ($(".pet-image").parent().hasClass("pet-frame")) {
+    $(".pet-image").unwrap(); // counterpart to .wrap()
+  }
+
+  wigglePet();
+  afterAction("Phew... great workout!");
 }
 
-
-// NEW ACTION + BEHAVIOR
 function clickedSleepButton() {
-  pet_info.energy += 3;
-  pet_info.happiness += 1;
+  pet_info.energy += 3;        // main effect
+  pet_info.happiness += 1;     // well-rested = happier
   afterAction("Zzz... I feel rested!");
 }
 
-// Shared post-action flow
+/* ---------------------------
+   Shared post-action flow
+---------------------------- */
 function afterAction(commentText) {
   checkAndUpdatePetInfoInHtml();
   showComment(commentText);
+  blinkPet(); // subtle feedback using .queue() (unique method #2)
 }
 
-// Keep values sensible before painting UI
+/* ---------------------------
+   UI + Constraints
+---------------------------- */
 function checkWeightAndHappinessBeforeUpdating() {
   // Lower bounds
   pet_info.weight = Math.max(0, pet_info.weight);
@@ -94,45 +112,37 @@ function checkAndUpdatePetInfoInHtml() {
   updatePetInfoInHtml();
 }
 
-// Visual notification from the pet WITHOUT alert/console
+/* ---------------------------
+   Feedback & Animations
+---------------------------- */
+// Comment bubble without using classmate-claimed methods
 function showComment(msg) {
-  $(".pet-comment")
-    .stop(true, true)
-    .hide()
-    .text(msg)
-    .fadeIn(200)
-    .delay(1200)
-    .fadeOut(400);
+  const $c = $(".pet-comment");
+  $c.stop(true, true);
+  $c.text(msg);
+  $c.css("display", "block");
+  // hide after a short delay (no jQuery effects used here)
+  setTimeout(() => $c.css("display", "none"), 1400);
 }
 
-// Fun little wiggle animation for “play”/“exercise”
+// CSS transform-based shake (no layout drift)
 function wigglePet() {
   const $img = $(".pet-image");
   $img.removeClass("shake");
+  // force reflow so the CSS animation restarts
   void $img[0].offsetWidth;
   $img.addClass("shake");
 }
 
-function clickedPlayButton() {
-  pet_info.happiness += 2;
-  pet_info.weight -= 1;
-  pet_info.energy -= 2;
-  afterAction("That was fun! Wanna play again?");
-  wigglePet();
-
-  // unique method: .wrap()
-  $(".pet-image").wrap("<div class='pet-frame'></div>");
-}
-
+// Subtle blink using .queue() (unique method #2)
 function blinkPet() {
   $(".pet-image")
     .queue(function (next) {
       $(this).css("opacity", 0.3);
-      next();
+      setTimeout(next, 120);
     })
     .queue(function (next) {
       $(this).css("opacity", 1);
-      next();
+      setTimeout(next, 120);
     });
 }
-
