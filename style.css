@@ -98,3 +98,18 @@ li {
 .pet-image.sad {
   filter: grayscale(100%) brightness(0.8);
 }
+
+.sparkle {
+  margin-top: 8px;
+  font-size: 18px;
+  color: #ffd700;
+  text-shadow: 0 0 8px #ffef8a;
+  text-align: center;
+  animation: sparkle-pop 0.6s ease;
+}
+
+@keyframes sparkle-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}

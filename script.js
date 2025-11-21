@@ -27,6 +27,7 @@ function clickedTreatButton() {
   pet_info.weight += 1;
   pet_info.energy += 1;
   afterAction("Yum! Thanks for the treat!");
+  sparklePet(); // trigger sparkle effect using insertAfter()
 }
 
 function clickedPlayButton() {
@@ -134,7 +135,6 @@ function wigglePet() {
   $img.addClass("shake");
 }
 
-// Subtle blink using .queue() (unique method #2)
 function blinkPet() {
   $(".pet-image")
     .queue(function (next) {
@@ -145,4 +145,19 @@ function blinkPet() {
       $(this).css("opacity", 1);
       setTimeout(next, 120);
     });
+}
+
+// Unique method #3: insertAfter()
+// Adds a fun message element right after the pet image temporarily
+function sparklePet() {
+  const $img = $(".pet-image");
+  const $sparkle = $("<div class='sparkle'>✨ You made me sparkle! ✨</div>");
+  
+  // Use insertAfter() to place it after the pet image
+  $sparkle.insertAfter($img);
+
+  // Fade it out and remove automatically after a short time
+  setTimeout(() => {
+    $sparkle.fadeOut(800, () => $sparkle.remove());
+  }, 800);
 }
